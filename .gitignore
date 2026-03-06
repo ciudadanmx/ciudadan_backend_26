@@ -112,3 +112,16 @@ build
 
 *.db
 .env.*
+*.sqlite
+*.db
+.tmp
+.env
+node_modules
+build
+
+*.sqlite
+*.db
+.env
+.env.*
+node_modules
+.tmp
