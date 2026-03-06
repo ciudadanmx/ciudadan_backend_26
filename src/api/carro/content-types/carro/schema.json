@@ -1,0 +1,51 @@
+{
+  "kind": "collectionType",
+  "collectionName": "carros",
+  "info": {
+    "singularName": "carro",
+    "pluralName": "carros",
+    "displayName": "carros"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "conductoremail": {
+      "type": "email"
+    },
+    "imagen": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
+    },
+    "conductor": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "fecharegistro": {
+      "type": "datetime"
+    },
+    "marca": {
+      "type": "string"
+    },
+    "nombre": {
+      "type": "string"
+    },
+    "modelo": {
+      "type": "integer"
+    },
+    "caracteristicas": {
+      "type": "json"
+    },
+    "observaciones": {
+      "type": "text"
+    }
+  }
+}
