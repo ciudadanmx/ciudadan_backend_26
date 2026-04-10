@@ -18,19 +18,19 @@
     "creador": {
       "type": "relation",
       "relation": "oneToOne",
-      "target": "admin::user"
+      "target": "plugin::users-permissions.user"
     },
     "areas": {
       "type": "relation",
-      "relation": "oneToMany",
+      "relation": "manyToMany",
       "target": "api::area.area",
-      "mappedBy": "todo"
+      "mappedBy": "todos"
     },
     "subareas": {
       "type": "relation",
-      "relation": "oneToMany",
+      "relation": "manyToMany",
       "target": "api::area.area",
-      "mappedBy": "todo"
+      "mappedBy": "todos"
     },
     "tipo": {
       "type": "enumeration",

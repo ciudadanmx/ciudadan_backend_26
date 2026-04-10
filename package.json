@@ -58,6 +58,7 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "concurrently": "^9.2.1",
     "npm-force-resolutions": "^0.0.10"
   }
 }

@@ -28,9 +28,9 @@
     "timestamp": {
       "type": "datetime"
     },
-    "todo": {
+    "todos": {
       "type": "relation",
-      "relation": "manyToOne",
+      "relation": "manyToMany",
       "target": "api::todo.todo",
       "inversedBy": "subareas"
     }

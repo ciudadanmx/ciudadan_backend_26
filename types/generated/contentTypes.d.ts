@@ -1069,7 +1069,7 @@ export interface ApiAreaArea extends Schema.CollectionType {
     sup: Attribute.Integer;
     creador: Attribute.Relation<'api::area.area', 'oneToOne', 'admin::user'>;
     timestamp: Attribute.DateTime;
-    todo: Attribute.Relation<'api::area.area', 'manyToOne', 'api::todo.todo'>;
+    todos: Attribute.Relation<'api::area.area', 'manyToMany', 'api::todo.todo'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -3890,11 +3890,15 @@ export interface ApiTodoTodo extends Schema.CollectionType {
   };
   attributes: {
     idx: Attribute.UID;
-    creador: Attribute.Relation<'api::todo.todo', 'oneToOne', 'admin::user'>;
-    areas: Attribute.Relation<'api::todo.todo', 'oneToMany', 'api::area.area'>;
+    creador: Attribute.Relation<
+      'api::todo.todo',
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+    areas: Attribute.Relation<'api::todo.todo', 'manyToMany', 'api::area.area'>;
     subareas: Attribute.Relation<
       'api::todo.todo',
-      'oneToMany',
+      'manyToMany',
       'api::area.area'
     >;
     tipo: Attribute.Enumeration<['tarea', 'subtarea']>;
