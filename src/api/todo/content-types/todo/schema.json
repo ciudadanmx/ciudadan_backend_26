@@ -23,14 +23,12 @@
     "areas": {
       "type": "relation",
       "relation": "manyToMany",
-      "target": "api::area.area",
-      "mappedBy": "todos"
+      "target": "api::area.area"
     },
     "subareas": {
       "type": "relation",
       "relation": "manyToMany",
-      "target": "api::area.area",
-      "mappedBy": "todos"
+      "target": "api::area.area"
     },
     "tipo": {
       "type": "enumeration",
