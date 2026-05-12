@@ -2237,6 +2237,134 @@ export interface ApiDireccionDireccion extends Schema.CollectionType {
   };
 }
 
+export interface ApiDriverDriver extends Schema.CollectionType {
+  collectionName: 'drivers';
+  info: {
+    singularName: 'driver';
+    pluralName: 'drivers';
+    displayName: 'Driver';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    user: Attribute.Relation<
+      'api::driver.driver',
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+    email: Attribute.Email;
+    phone: Attribute.String;
+    firstname: Attribute.String;
+    middlename: Attribute.String;
+    lastname: Attribute.String;
+    birthdate: Attribute.Date;
+    curp: Attribute.String;
+    rfc: Attribute.String;
+    emergency_phone: Attribute.String;
+    address: Attribute.String;
+    zip_code: Attribute.String;
+    state: Attribute.String;
+    municipality: Attribute.String;
+    profile_pic: Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    verification_selfie: Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios'
+    >;
+    id_front: Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    id_back: Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    driver_license_front: Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios'
+    >;
+    driver_license_back: Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios'
+    >;
+    proof_of_address: Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios',
+      true
+    >;
+    license_number: Attribute.String;
+    license_type: Attribute.String;
+    license_expiration_date: Attribute.Date;
+    vehicle_brand: Attribute.String;
+    vehicle_model: Attribute.String;
+    vehicle_year: Attribute.String;
+    vehicle_color: Attribute.String;
+    license_plate: Attribute.String;
+    vin_number: Attribute.String;
+    vehicle_type: Attribute.String;
+    passenger_capacity: Attribute.String;
+    vehicle_front_photo: Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios',
+      true
+    >;
+    vehicle_side_photo: Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios',
+      true
+    >;
+    vehicle_back_photo: Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios',
+      true
+    >;
+    vehicle_interior_photo: Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios',
+      true
+    >;
+    vehicle_registration_card: Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios',
+      true
+    >;
+    vehicle_insurance_document: Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios',
+      true
+    >;
+    appointment_date: Attribute.DateTime;
+    agency: Attribute.Relation<
+      'api::driver.driver',
+      'oneToOne',
+      'api::agencia.agencia'
+    >;
+    reviewer: Attribute.Relation<
+      'api::driver.driver',
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+    current_step: Attribute.String;
+    profile_completed: Attribute.Boolean;
+    documents_completed: Attribute.Boolean;
+    appointment_scheduled: Attribute.Boolean;
+    in_person_verification_completed: Attribute.Boolean;
+    final_approval: Attribute.Boolean;
+    status: Attribute.Enumeration<
+      [
+        'draft',
+        'pending_documents',
+        'pending_appointment',
+        'pending_review',
+        'documents_rejected',
+        'approved',
+        'rejected',
+        'suspended',
+        'blocked'
+      ]
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::driver.driver',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::driver.driver',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiDriverLocationDriverLocation extends Schema.CollectionType {
   collectionName: 'driver_locations';
   info: {
@@ -4128,6 +4256,7 @@ declare module '@strapi/types' {
       'api::credencial.credencial': ApiCredencialCredencial;
       'api::curso.curso': ApiCursoCurso;
       'api::direccion.direccion': ApiDireccionDireccion;
+      'api::driver.driver': ApiDriverDriver;
       'api::driver-location.driver-location': ApiDriverLocationDriverLocation;
       'api::enlace.enlace': ApiEnlaceEnlace;
       'api::evento.evento': ApiEventoEvento;
