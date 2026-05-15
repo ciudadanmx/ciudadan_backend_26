@@ -4,7 +4,8 @@
   "info": {
     "singularName": "carro",
     "pluralName": "carros",
-    "displayName": "carros"
+    "displayName": "carros",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -15,14 +16,15 @@
       "type": "email"
     },
     "imagen": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
     },
     "conductor": {
       "type": "relation",
@@ -46,6 +48,47 @@
     },
     "observaciones": {
       "type": "text"
+    },
+    "portabici": {
+      "type": "boolean"
+    },
+    "accesibilidad": {
+      "type": "boolean"
+    },
+    "agua": {
+      "type": "boolean"
+    },
+    "mascotas": {
+      "type": "boolean"
+    },
+    "fumadores": {
+      "type": "boolean"
+    },
+    "wifi": {
+      "type": "boolean"
+    },
+    "otro_genero": {
+      "type": "boolean"
+    },
+    "puertas": {
+      "type": "integer"
+    },
+    "rockola": {
+      "type": "boolean"
+    },
+    "ultimaverificacion": {
+      "type": "datetime"
+    },
+    "verificaciones": {
+      "type": "json"
+    },
+    "status": {
+      "type": "string"
+    },
+    "agencia": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::agencia.agencia"
     }
   }
 }

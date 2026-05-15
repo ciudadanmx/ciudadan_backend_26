@@ -1197,6 +1197,7 @@ export interface ApiCarroCarro extends Schema.CollectionType {
     singularName: 'carro';
     pluralName: 'carros';
     displayName: 'carros';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -1215,6 +1216,23 @@ export interface ApiCarroCarro extends Schema.CollectionType {
     modelo: Attribute.Integer;
     caracteristicas: Attribute.JSON;
     observaciones: Attribute.Text;
+    portabici: Attribute.Boolean;
+    accesibilidad: Attribute.Boolean;
+    agua: Attribute.Boolean;
+    mascotas: Attribute.Boolean;
+    fumadores: Attribute.Boolean;
+    wifi: Attribute.Boolean;
+    otro_genero: Attribute.Boolean;
+    puertas: Attribute.Integer;
+    rockola: Attribute.Boolean;
+    ultimaverificacion: Attribute.DateTime;
+    verificaciones: Attribute.JSON;
+    status: Attribute.String;
+    agencia: Attribute.Relation<
+      'api::carro.carro',
+      'oneToOne',
+      'api::agencia.agencia'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
