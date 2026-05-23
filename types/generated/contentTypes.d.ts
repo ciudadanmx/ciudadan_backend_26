@@ -1211,23 +1211,64 @@ export interface ApiCarroCarro extends Schema.CollectionType {
       'plugin::users-permissions.user'
     >;
     fecharegistro: Attribute.DateTime;
-    marca: Attribute.String;
-    nombre: Attribute.String;
-    modelo: Attribute.Integer;
+    marca: Attribute.String &
+      Attribute.SetMinMaxLength<{
+        minLength: 2;
+        maxLength: 40;
+      }>;
+    nombre: Attribute.String &
+      Attribute.SetMinMaxLength<{
+        minLength: 2;
+        maxLength: 40;
+      }>;
+    modelo: Attribute.Integer &
+      Attribute.SetMinMax<
+        {
+          min: 1980;
+          max: 2035;
+        },
+        number
+      >;
+    puertas: Attribute.Integer &
+      Attribute.SetMinMax<
+        {
+          min: 2;
+          max: 8;
+        },
+        number
+      >;
     caracteristicas: Attribute.JSON;
-    observaciones: Attribute.Text;
-    portabici: Attribute.Boolean;
-    accesibilidad: Attribute.Boolean;
-    agua: Attribute.Boolean;
-    mascotas: Attribute.Boolean;
-    fumadores: Attribute.Boolean;
-    wifi: Attribute.Boolean;
-    otro_genero: Attribute.Boolean;
-    puertas: Attribute.Integer;
-    rockola: Attribute.Boolean;
+    observaciones: Attribute.Text &
+      Attribute.SetMinMaxLength<{
+        maxLength: 500;
+      }>;
+    charla: Attribute.Enumeration<
+      ['silencio', 'ligera', 'social', 'indiferente']
+    > &
+      Attribute.DefaultTo<'indiferente'>;
+    musica: Attribute.Enumeration<
+      ['sin_musica', 'musica_suave', 'pasajero_elige', 'indiferente']
+    > &
+      Attribute.DefaultTo<'indiferente'>;
+    tipo_musica: Attribute.JSON;
+    wifi: Attribute.Boolean & Attribute.DefaultTo<false>;
+    agua: Attribute.Boolean & Attribute.DefaultTo<false>;
+    cargador: Attribute.Boolean & Attribute.DefaultTo<false>;
+    snacks: Attribute.Boolean & Attribute.DefaultTo<false>;
+    portabici: Attribute.Boolean & Attribute.DefaultTo<false>;
+    accesibilidad: Attribute.Boolean & Attribute.DefaultTo<false>;
+    mascotas: Attribute.Boolean & Attribute.DefaultTo<false>;
+    fumadores: Attribute.Boolean & Attribute.DefaultTo<false>;
+    aire_acondicionado: Attribute.Boolean & Attribute.DefaultTo<false>;
+    rockola: Attribute.Boolean & Attribute.DefaultTo<false>;
+    ambiente_inclusivo: Attribute.Boolean & Attribute.DefaultTo<false>;
+    otro_genero: Attribute.Boolean & Attribute.DefaultTo<false>;
     ultimaverificacion: Attribute.DateTime;
     verificaciones: Attribute.JSON;
-    status: Attribute.String;
+    status: Attribute.Enumeration<
+      ['pendiente', 'activo', 'revision', 'suspendido']
+    > &
+      Attribute.DefaultTo<'pendiente'>;
     agencia: Attribute.Relation<
       'api::carro.carro',
       'oneToOne',
@@ -1244,6 +1285,143 @@ export interface ApiCarroCarro extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::carro.carro',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiCarsEvidenceCarsEvidence extends Schema.CollectionType {
+  collectionName: 'cars_evidences';
+  info: {
+    singularName: 'cars-evidence';
+    pluralName: 'cars-evidences';
+    displayName: 'Cars Evidence';
+    description: 'Evidencias multimedia de la validaci\u00F3n';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    validation: Attribute.Relation<
+      'api::cars-evidence.cars-evidence',
+      'manyToOne',
+      'api::cars-validation.cars-validation'
+    >;
+    type: Attribute.Enumeration<
+      [
+        'selfie_live',
+        'id_front',
+        'id_back',
+        'license_front',
+        'license_back',
+        'vehicle_front',
+        'vehicle_back',
+        'vehicle_left',
+        'vehicle_right',
+        'plates',
+        'vin',
+        'interior',
+        'trunk',
+        'video_360'
+      ]
+    >;
+    file: Attribute.Media<'images' | 'videos' | 'files'> & Attribute.Required;
+    sha256: Attribute.String;
+    perceptual_hash: Attribute.String;
+    nonce: Attribute.String;
+    timestamp_client: Attribute.DateTime;
+    timestamp_server: Attribute.DateTime;
+    gps_lat: Attribute.Decimal;
+    gps_lng: Attribute.Decimal;
+    gps_accuracy: Attribute.Decimal;
+    device_id: Attribute.String;
+    app_version: Attribute.String;
+    uploaded_from_gallery: Attribute.Boolean & Attribute.DefaultTo<false>;
+    is_valid: Attribute.Boolean & Attribute.DefaultTo<false>;
+    validation_flags: Attribute.JSON;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::cars-evidence.cars-evidence',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::cars-evidence.cars-evidence',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiCarsValidationCarsValidation extends Schema.CollectionType {
+  collectionName: 'cars_validations';
+  info: {
+    singularName: 'cars-validation';
+    pluralName: 'cars-validations';
+    displayName: 'Cars Validation';
+    description: 'Historial de validaciones presenciales de conductor y veh\u00EDculo';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    driver: Attribute.Relation<
+      'api::cars-validation.cars-validation',
+      'manyToOne',
+      'api::driver.driver'
+    >;
+    agency: Attribute.Relation<
+      'api::cars-validation.cars-validation',
+      'manyToOne',
+      'api::agencia.agencia'
+    >;
+    reviewer: Attribute.Relation<
+      'api::cars-validation.cars-validation',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    appointment_date: Attribute.DateTime;
+    validation_started_at: Attribute.DateTime;
+    validation_finished_at: Attribute.DateTime;
+    status: Attribute.Enumeration<
+      ['pending', 'active', 'completed', 'expired', 'cancelled', 'under_review']
+    > &
+      Attribute.DefaultTo<'pending'>;
+    result: Attribute.Enumeration<
+      ['approved', 'approved_with_observations', 'manual_review', 'rejected']
+    > &
+      Attribute.DefaultTo<'manual_review'>;
+    nonce: Attribute.String;
+    session_token: Attribute.String;
+    risk_score: Attribute.Integer & Attribute.DefaultTo<0>;
+    gps_lat: Attribute.Decimal;
+    gps_lng: Attribute.Decimal;
+    gps_accuracy: Attribute.Decimal;
+    device_id: Attribute.String;
+    app_version: Attribute.String;
+    checklist: Attribute.JSON;
+    observations: Attribute.Text;
+    metadata: Attribute.JSON;
+    evidences: Attribute.Relation<
+      'api::cars-validation.cars-validation',
+      'oneToMany',
+      'api::cars-evidence.cars-evidence'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::cars-validation.cars-validation',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::cars-validation.cars-validation',
       'oneToOne',
       'admin::user'
     > &
@@ -4257,6 +4435,8 @@ declare module '@strapi/types' {
       'api::bitacora.bitacora': ApiBitacoraBitacora;
       'api::carrito.carrito': ApiCarritoCarrito;
       'api::carro.carro': ApiCarroCarro;
+      'api::cars-evidence.cars-evidence': ApiCarsEvidenceCarsEvidence;
+      'api::cars-validation.cars-validation': ApiCarsValidationCarsValidation;
       'api::cartera.cartera': ApiCarteraCartera;
       'api::categoria-contenido.categoria-contenido': ApiCategoriaContenidoCategoriaContenido;
       'api::categoria-curso.categoria-curso': ApiCategoriaCursoCategoriaCurso;
