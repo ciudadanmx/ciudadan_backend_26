@@ -1316,10 +1316,14 @@ export interface ApiCarsEvidenceCarsEvidence extends Schema.CollectionType {
         'id_back',
         'license_front',
         'license_back',
+        'proof_of_address',
+        'profile_photo',
         'vehicle_front',
         'vehicle_back',
         'vehicle_left',
         'vehicle_right',
+        'registration_card',
+        'insurance_document',
         'plates',
         'vin',
         'interior',
@@ -1328,6 +1332,35 @@ export interface ApiCarsEvidenceCarsEvidence extends Schema.CollectionType {
       ]
     >;
     file: Attribute.Media<'images' | 'videos' | 'files'> & Attribute.Required;
+    review_status: Attribute.Enumeration<
+      [
+        'pending',
+        'needs_review',
+        'approved',
+        'rejected',
+        'resub_requested',
+        'superseded'
+      ]
+    > &
+      Attribute.DefaultTo<'pending'>;
+    reviewer_note: Attribute.Text;
+    reviewed_at: Attribute.DateTime;
+    reviewer: Attribute.Relation<
+      'api::cars-evidence.cars-evidence',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    source_driver_field: Attribute.String;
+    source_file_id: Attribute.Integer;
+    version: Attribute.Integer & Attribute.DefaultTo<1>;
+    is_current: Attribute.Boolean & Attribute.DefaultTo<true>;
+    supersedes: Attribute.Relation<
+      'api::cars-evidence.cars-evidence',
+      'manyToOne',
+      'api::cars-evidence.cars-evidence'
+    >;
+    origin: Attribute.Enumeration<['preregister', 'reupload', 'live_capture']> &
+      Attribute.DefaultTo<'preregister'>;
     sha256: Attribute.String;
     perceptual_hash: Attribute.String;
     nonce: Attribute.String;
@@ -1380,14 +1413,21 @@ export interface ApiCarsValidationCarsValidation extends Schema.CollectionType {
       'manyToOne',
       'api::agencia.agencia'
     >;
+    agenda: Attribute.Relation<
+      'api::cars-validation.cars-validation',
+      'manyToOne',
+      'api::agenda.agenda'
+    >;
     reviewer: Attribute.Relation<
       'api::cars-validation.cars-validation',
       'manyToOne',
       'plugin::users-permissions.user'
     >;
     appointment_date: Attribute.DateTime;
+    opened_at: Attribute.DateTime;
     validation_started_at: Attribute.DateTime;
     validation_finished_at: Attribute.DateTime;
+    closed_at: Attribute.DateTime;
     status: Attribute.Enumeration<
       ['pending', 'active', 'completed', 'expired', 'cancelled', 'under_review']
     > &
@@ -1412,6 +1452,11 @@ export interface ApiCarsValidationCarsValidation extends Schema.CollectionType {
       'oneToMany',
       'api::cars-evidence.cars-evidence'
     >;
+    events: Attribute.Relation<
+      'api::cars-validation.cars-validation',
+      'oneToMany',
+      'api::cars-validation-event.cars-validation-event'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1422,6 +1467,68 @@ export interface ApiCarsValidationCarsValidation extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::cars-validation.cars-validation',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiCarsValidationEventCarsValidationEvent
+  extends Schema.CollectionType {
+  collectionName: 'cars_validation_events';
+  info: {
+    singularName: 'cars-validation-event';
+    pluralName: 'cars-validation-events';
+    displayName: 'Cars Validation Event';
+    description: 'Auditor\u00EDa y trazabilidad del proceso de validaci\u00F3n';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    validation: Attribute.Relation<
+      'api::cars-validation-event.cars-validation-event',
+      'manyToOne',
+      'api::cars-validation.cars-validation'
+    >;
+    evidence: Attribute.Relation<
+      'api::cars-validation-event.cars-validation-event',
+      'manyToOne',
+      'api::cars-evidence.cars-evidence'
+    >;
+    actor: Attribute.Relation<
+      'api::cars-validation-event.cars-validation-event',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    action: Attribute.Enumeration<
+      [
+        'validation_created',
+        'evidence_synced',
+        'evidence_approved',
+        'evidence_rejected',
+        'evidence_resub_requested',
+        'evidence_superseded',
+        'validation_started',
+        'validation_completed',
+        'validation_cancelled',
+        'driver_status_synced',
+        'observations_updated',
+        'checklist_updated'
+      ]
+    >;
+    payload: Attribute.JSON;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::cars-validation-event.cars-validation-event',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::cars-validation-event.cars-validation-event',
       'oneToOne',
       'admin::user'
     > &
@@ -4437,6 +4544,7 @@ declare module '@strapi/types' {
       'api::carro.carro': ApiCarroCarro;
       'api::cars-evidence.cars-evidence': ApiCarsEvidenceCarsEvidence;
       'api::cars-validation.cars-validation': ApiCarsValidationCarsValidation;
+      'api::cars-validation-event.cars-validation-event': ApiCarsValidationEventCarsValidationEvent;
       'api::cartera.cartera': ApiCarteraCartera;
       'api::categoria-contenido.categoria-contenido': ApiCategoriaContenidoCategoriaContenido;
       'api::categoria-curso.categoria-curso': ApiCategoriaCursoCategoriaCurso;
