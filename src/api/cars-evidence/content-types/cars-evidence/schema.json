@@ -15,7 +15,8 @@
     "validation": {
       "type": "relation",
       "relation": "manyToOne",
-      "target": "api::cars-validation.cars-validation"
+      "target": "api::cars-validation.cars-validation",
+      "inversedBy": "evidences"
     },
     "type": {
       "type": "enumeration",
