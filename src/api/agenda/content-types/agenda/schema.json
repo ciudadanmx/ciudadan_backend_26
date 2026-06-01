@@ -39,7 +39,16 @@
       "type": "string"
     },
     "estado": {
-      "type": "string"
+      "type": "enumeration",
+      "enum": [
+        "pendiente",
+        "en_revision",
+        "resubir_archivos",
+        "completada",
+        "cancelada",
+        "expirada"
+      ],
+      "default": "pendiente"
     },
     "fecha_inicio": {
       "type": "datetime"

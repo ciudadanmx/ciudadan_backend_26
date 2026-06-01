@@ -1027,7 +1027,17 @@ export interface ApiAgendaAgenda extends Schema.CollectionType {
     colaboradores: Attribute.JSON;
     portada: Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     ciudad: Attribute.String;
-    estado: Attribute.String;
+    estado: Attribute.Enumeration<
+      [
+        'pendiente',
+        'en_revision',
+        'resubir_archivos',
+        'completada',
+        'cancelada',
+        'expirada'
+      ]
+    > &
+      Attribute.DefaultTo<'pendiente'>;
     fecha_inicio: Attribute.DateTime;
     status: Attribute.String;
     descripcion: Attribute.Text;
@@ -1429,11 +1439,25 @@ export interface ApiCarsValidationCarsValidation extends Schema.CollectionType {
     validation_finished_at: Attribute.DateTime;
     closed_at: Attribute.DateTime;
     status: Attribute.Enumeration<
-      ['pending', 'active', 'completed', 'expired', 'cancelled', 'under_review']
+      [
+        'pending',
+        'active',
+        'completed',
+        'expired',
+        'cancelled',
+        'under_review',
+        'awaiting_resubmission'
+      ]
     > &
       Attribute.DefaultTo<'pending'>;
     result: Attribute.Enumeration<
-      ['approved', 'approved_with_observations', 'manual_review', 'rejected']
+      [
+        'approved',
+        'approved_with_observations',
+        'manual_review',
+        'rejected',
+        'resubmission_required'
+      ]
     > &
       Attribute.DefaultTo<'manual_review'>;
     nonce: Attribute.String;
@@ -1515,7 +1539,10 @@ export interface ApiCarsValidationEventCarsValidationEvent
         'validation_cancelled',
         'driver_status_synced',
         'observations_updated',
-        'checklist_updated'
+        'checklist_updated',
+        'agenda_synced',
+        'validation_status_changed',
+        'resubmission_requested'
       ]
     >;
     payload: Attribute.JSON;

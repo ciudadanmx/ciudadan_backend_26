@@ -86,7 +86,6 @@ router.post('/preregistro', async (req, res) => {
         usuario: user.id,
         ciudad,
         estado: 'pendiente',
-        status: 'pendiente',
         fecha_inicio: fechaISO,
         descripcion: 'Preregistro conductor',
         observaciones: 'preregistro conductor',

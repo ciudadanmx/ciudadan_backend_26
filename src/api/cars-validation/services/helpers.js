@@ -28,7 +28,12 @@ const DRIVER_EVIDENCE_MAP = [
   },
 ];
 
-const ACTIVE_VALIDATION_STATUSES = ["pending", "active", "under_review"];
+const ACTIVE_VALIDATION_STATUSES = [
+  "pending",
+  "active",
+  "under_review",
+  "awaiting_resubmission",
+];
 
 const DRIVER_MEDIA_POPULATE = DRIVER_EVIDENCE_MAP.reduce((acc, { field }) => {
   acc[field] = true;

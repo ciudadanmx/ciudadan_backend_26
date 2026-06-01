@@ -42,7 +42,10 @@
         "validation_cancelled",
         "driver_status_synced",
         "observations_updated",
-        "checklist_updated"
+        "checklist_updated",
+        "agenda_synced",
+        "validation_status_changed",
+        "resubmission_requested"
       ]
     },
     "payload": {

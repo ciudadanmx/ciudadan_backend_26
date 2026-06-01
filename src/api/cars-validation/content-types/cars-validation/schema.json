@@ -55,7 +55,8 @@
         "completed",
         "expired",
         "cancelled",
-        "under_review"
+        "under_review",
+        "awaiting_resubmission"
       ],
       "default": "pending"
     },
@@ -65,7 +66,8 @@
         "approved",
         "approved_with_observations",
         "manual_review",
-        "rejected"
+        "rejected",
+        "resubmission_required"
       ],
       "default": "manual_review"
     },
