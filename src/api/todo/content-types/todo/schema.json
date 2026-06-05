@@ -4,7 +4,7 @@
   "info": {
     "singularName": "todo",
     "pluralName": "todos",
-    "displayName": "todo",
+    "displayName": "Tasks",
     "description": ""
   },
   "options": {
@@ -28,7 +28,8 @@
     "subareas": {
       "type": "relation",
       "relation": "manyToMany",
-      "target": "api::area.area"
+      "target": "api::area.area",
+      "mappedBy": "todos"
     },
     "tipo": {
       "type": "enumeration",
@@ -83,7 +84,12 @@
         "borrador",
         "publicada",
         "asignada",
-        "cerrada",
+        "en_proceso",
+        "pendiente_revision",
+        "corregir",
+        "corregida",
+        "calificada",
+        "pagada",
         "cancelada"
       ]
     },
@@ -127,9 +133,6 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::agencia.agencia"
-    },
-    "area": {
-      "type": "string"
     },
     "agencianombre": {
       "type": "string"

@@ -912,6 +912,7 @@ export interface ApiAdAd extends Schema.CollectionType {
     hora: Attribute.Time;
     cuerpo: Attribute.RichText;
     porcentaje: Attribute.Decimal;
+    area: Attribute.Relation<'api::ad.ad', 'manyToOne', 'api::area.area'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1059,17 +1060,29 @@ export interface ApiAreaArea extends Schema.CollectionType {
     singularName: 'area';
     pluralName: 'areas';
     displayName: 'Area';
+    description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
     nombre: Attribute.String;
-    nivel: Attribute.Integer;
-    sup: Attribute.Integer;
+    nivel: Attribute.Integer & Attribute.Required & Attribute.DefaultTo<0>;
     creador: Attribute.Relation<'api::area.area', 'oneToOne', 'admin::user'>;
     timestamp: Attribute.DateTime;
     todos: Attribute.Relation<'api::area.area', 'manyToMany', 'api::todo.todo'>;
+    is_active: Attribute.Boolean & Attribute.DefaultTo<true>;
+    ads: Attribute.Relation<'api::area.area', 'oneToMany', 'api::ad.ad'>;
+    parent_area: Attribute.Relation<
+      'api::area.area',
+      'manyToOne',
+      'api::area.area'
+    >;
+    subareas: Attribute.Relation<
+      'api::area.area',
+      'oneToMany',
+      'api::area.area'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -4158,7 +4171,7 @@ export interface ApiTareaTarea extends Schema.CollectionType {
   info: {
     singularName: 'tarea';
     pluralName: 'tareas';
-    displayName: 'tarea';
+    displayName: 'tasks-completed';
     description: '';
   };
   options: {
@@ -4174,7 +4187,11 @@ export interface ApiTareaTarea extends Schema.CollectionType {
     tipo: Attribute.Enumeration<['tarea', 'subtarea']>;
     todo: Attribute.Relation<'api::tarea.tarea', 'oneToOne', 'api::todo.todo'>;
     avances: Attribute.JSON;
-    usuario: Attribute.Relation<'api::tarea.tarea', 'oneToOne', 'admin::user'>;
+    usuario: Attribute.Relation<
+      'api::tarea.tarea',
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
     enlaces: Attribute.JSON;
     calificaciones: Attribute.JSON;
     apelaciones: Attribute.JSON;
@@ -4206,7 +4223,7 @@ export interface ApiTodoTodo extends Schema.CollectionType {
   info: {
     singularName: 'todo';
     pluralName: 'todos';
-    displayName: 'todo';
+    displayName: 'Tasks';
     description: '';
   };
   options: {
@@ -4237,7 +4254,18 @@ export interface ApiTodoTodo extends Schema.CollectionType {
     enlaces: Attribute.JSON;
     subtareas: Attribute.String;
     status: Attribute.Enumeration<
-      ['borrador', 'publicada', 'asignada', 'cerrada', 'cancelada']
+      [
+        'borrador',
+        'publicada',
+        'asignada',
+        'en_proceso',
+        'pendiente_revision',
+        'corregir',
+        'corregida',
+        'calificada',
+        'pagada',
+        'cancelada'
+      ]
     >;
     pagos_laborys: Attribute.Decimal;
     pagos_efectivo: Attribute.Decimal;
@@ -4256,7 +4284,6 @@ export interface ApiTodoTodo extends Schema.CollectionType {
       'oneToOne',
       'api::agencia.agencia'
     >;
-    area: Attribute.String;
     agencianombre: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;

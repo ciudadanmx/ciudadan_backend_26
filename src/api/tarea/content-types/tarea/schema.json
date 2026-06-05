@@ -4,7 +4,7 @@
   "info": {
     "singularName": "tarea",
     "pluralName": "tareas",
-    "displayName": "tarea",
+    "displayName": "tasks-completed",
     "description": ""
   },
   "options": {
@@ -38,7 +38,7 @@
     "usuario": {
       "type": "relation",
       "relation": "oneToOne",
-      "target": "admin::user"
+      "target": "plugin::users-permissions.user"
     },
     "enlaces": {
       "type": "json"

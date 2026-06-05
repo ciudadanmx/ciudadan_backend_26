@@ -85,6 +85,12 @@
     },
     "porcentaje": {
       "type": "decimal"
+    },
+    "area": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::area.area",
+      "inversedBy": "ads"
     }
   }
 }

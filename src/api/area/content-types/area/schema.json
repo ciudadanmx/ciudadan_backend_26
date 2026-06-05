@@ -4,7 +4,8 @@
   "info": {
     "singularName": "area",
     "pluralName": "areas",
-    "displayName": "Area"
+    "displayName": "Area",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -15,10 +16,9 @@
       "type": "string"
     },
     "nivel": {
-      "type": "integer"
-    },
-    "sup": {
-      "type": "integer"
+      "type": "integer",
+      "default": 0,
+      "required": true
     },
     "creador": {
       "type": "relation",
@@ -33,6 +33,28 @@
       "relation": "manyToMany",
       "target": "api::todo.todo",
       "inversedBy": "subareas"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    },
+    "ads": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::ad.ad",
+      "mappedBy": "area"
+    },
+    "parent_area": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::area.area",
+      "inversedBy": "subareas"
+    },
+    "subareas": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::area.area",
+      "mappedBy": "parent_area"
     }
   }
 }
