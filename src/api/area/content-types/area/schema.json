@@ -55,6 +55,12 @@
       "relation": "oneToMany",
       "target": "api::area.area",
       "mappedBy": "parent_area"
+    },
+    "usuarios": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "plugin::users-permissions.user",
+      "mappedBy": "areas"
     }
   }
 }

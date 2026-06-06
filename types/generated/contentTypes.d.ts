@@ -811,6 +811,11 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
     >;
     fechaingresoplantas: Attribute.DateTime;
     plantas: Attribute.Integer;
+    areas: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'manyToMany',
+      'api::area.area'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1082,6 +1087,11 @@ export interface ApiAreaArea extends Schema.CollectionType {
       'api::area.area',
       'oneToMany',
       'api::area.area'
+    >;
+    usuarios: Attribute.Relation<
+      'api::area.area',
+      'manyToMany',
+      'plugin::users-permissions.user'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;

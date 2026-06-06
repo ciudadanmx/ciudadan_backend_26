@@ -320,6 +320,12 @@
     },
     "plantas": {
       "type": "integer"
+    },
+    "areas": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::area.area",
+      "inversedBy": "usuarios"
     }
   }
 }
