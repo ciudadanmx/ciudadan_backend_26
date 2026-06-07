@@ -4195,11 +4195,11 @@ export interface ApiTareaTarea extends Schema.CollectionType {
       'api::agencia.agencia'
     >;
     tipo: Attribute.Enumeration<['tarea', 'subtarea']>;
-    todo: Attribute.Relation<'api::tarea.tarea', 'oneToOne', 'api::todo.todo'>;
+    todo: Attribute.Relation<'api::tarea.tarea', 'manyToOne', 'api::todo.todo'>;
     avances: Attribute.JSON;
     usuario: Attribute.Relation<
       'api::tarea.tarea',
-      'oneToOne',
+      'manyToOne',
       'plugin::users-permissions.user'
     >;
     enlaces: Attribute.JSON;
@@ -4295,6 +4295,11 @@ export interface ApiTodoTodo extends Schema.CollectionType {
       'api::agencia.agencia'
     >;
     agencianombre: Attribute.String;
+    tareas: Attribute.Relation<
+      'api::todo.todo',
+      'oneToMany',
+      'api::tarea.tarea'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

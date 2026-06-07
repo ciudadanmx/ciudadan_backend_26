@@ -136,6 +136,12 @@
     },
     "agencianombre": {
       "type": "string"
+    },
+    "tareas": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::tarea.tarea",
+      "mappedBy": "todo"
     }
   }
 }

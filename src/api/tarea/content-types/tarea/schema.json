@@ -29,15 +29,16 @@
     },
     "todo": {
       "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::todo.todo"
+      "relation": "manyToOne",
+      "target": "api::todo.todo",
+      "inversedBy": "tareas"
     },
     "avances": {
       "type": "json"
     },
     "usuario": {
       "type": "relation",
-      "relation": "oneToOne",
+      "relation": "manyToOne",
       "target": "plugin::users-permissions.user"
     },
     "enlaces": {
