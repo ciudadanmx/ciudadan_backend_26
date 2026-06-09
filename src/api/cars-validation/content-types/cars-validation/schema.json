@@ -22,6 +22,11 @@
       "relation": "manyToOne",
       "target": "api::agencia.agencia"
     },
+    "agenda": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::agenda.agenda"
+    },
     "reviewer": {
       "type": "relation",
       "relation": "manyToOne",
@@ -30,10 +35,16 @@
     "appointment_date": {
       "type": "datetime"
     },
+    "opened_at": {
+      "type": "datetime"
+    },
     "validation_started_at": {
       "type": "datetime"
     },
     "validation_finished_at": {
+      "type": "datetime"
+    },
+    "closed_at": {
       "type": "datetime"
     },
     "status": {
@@ -44,7 +55,8 @@
         "completed",
         "expired",
         "cancelled",
-        "under_review"
+        "under_review",
+        "awaiting_resubmission"
       ],
       "default": "pending"
     },
@@ -54,7 +66,8 @@
         "approved",
         "approved_with_observations",
         "manual_review",
-        "rejected"
+        "rejected",
+        "resubmission_required"
       ],
       "default": "manual_review"
     },
@@ -96,6 +109,12 @@
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::cars-evidence.cars-evidence",
+      "mappedBy": "validation"
+    },
+    "events": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::cars-validation-event.cars-validation-event",
       "mappedBy": "validation"
     }
   }
