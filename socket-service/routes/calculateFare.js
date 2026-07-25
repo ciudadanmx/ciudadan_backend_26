@@ -71,9 +71,11 @@ async function fetchTarifaConfig() {
     timeout: 15000,
     headers: {
       Accept: 'application/json, text/plain, */*',
+      Authorization: `Bearer ${process.env.STRAPI_TOKEN}`,
       'User-Agent': 'ciudadan-backend/1.0 (+https://ciudadan.org)',
       // opcionalmente agrega Origin si Cloudflare lo requiere:
       // Origin: 'https://ciudadan.org'
+      
     }
   };
 
@@ -207,7 +209,16 @@ router.post('/calculate-fare', async (req, res) => {
 
     const url = `https://maps.googleapis.com/maps/api/directions/json?origin=${encodeURIComponent(originParam)}&destination=${encodeURIComponent(destParam)}&key=${encodeURIComponent(GEOCODING_KEY)}`;
 
-    const r = await axios.get(url, { timeout: 10000 });
+    const headers = {
+      'Content-Type': 'application/json',
+    };
+
+    // si hay token, lo usamos; si no, no pasa nada
+    if (process.env.STRAPI_TOKEN) {
+      headers.Authorization = `Bearer ${process.env.STRAPI_TOKEN}`;
+    }
+
+    const r = await axios.get(url, { headers, timeout: 10000 });
     if (!r.data || r.data.status !== 'OK' || !r.data.routes || !r.data.routes.length) {
       // fallback: intentamos aproximar distancia por Haversine si vienen coords
       try {
